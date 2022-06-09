@@ -40,24 +40,32 @@ module OmniAuth
       alias :old_request_phase :request_phase
 
       def request_phase
+        p "xxx twitter request_phase 1"
         %w[force_login lang screen_name].each do |v|
           if request.params[v]
+            p "xxx twitter request_phase 2 #{v} = #{request.params[v]}"
             options[:authorize_params][v.to_sym] = request.params[v]
           end
         end
+        p "xxx twitter request_phase 3"
 
         %w[x_auth_access_type].each do |v|
           if request.params[v]
+            p "xxx twitter request_phase 4 #{v} = #{request.params[v]}"
             options[:request_params][v.to_sym] = request.params[v]
           end
         end
+        p "xxx twitter request_phase 5"
 
         if options[:use_authorize] || request.params['use_authorize'] == 'true'
+          p "xxx twitter request_phase 6"
           options[:client_options][:authorize_path] = '/oauth/authorize'
         else
+          p "xxx twitter request_phase 7"
           options[:client_options][:authorize_path] = '/oauth/authenticate'
         end
 
+        p "xxx twitter request_phase 8"
         old_request_phase
       end
 
